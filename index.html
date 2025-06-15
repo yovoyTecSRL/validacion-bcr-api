@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Validación BCR - Solicitud de Tarjeta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; background: #f7f7f7; }
+        form { background: #fff; padding: 2em; border-radius: 8px; max-width: 400px; margin: auto; }
+        input, button { width: 100%; margin: 0.5em 0; padding: 0.7em; border-radius: 4px; border: 1px solid #ccc; }
+        .success { background: #e6ffe6; border: 1px solid #b2ffb2; padding: 1em; margin-top: 1em; border-radius: 6px; }
+        .actions { margin-top: 1em; display: flex; gap: 1em; flex-direction: column; }
+    </style>
+</head>
+<body>
+    <h2>Solicitud de Tarjeta BCR</h2>
+    <form id="solicitud-form" autocomplete="off">
+        <label>Nombre completo:</label>
+        <input type="text" name="nombre" required minlength="3" maxlength="80">
+
+        <label>Cédula:</label>
+        <input type="text" name="cedula" required pattern="\d{9,12}" maxlength="12">
+
+        <label>Teléfono:</label>
+        <input type="tel" name="telefono" required pattern="\d{8,15}" maxlength="15">
+
+        <label>Correo electrónico:</label>
+        <input type="email" name="correo" required maxlength="80">
+
+        <button type="submit">Enviar solicitud</button>
+    </form>
+
+    <!-- Botón para abrir la app en una nueva pestaña -->
+    <button 
+      style="margin: 1em auto; display: block; max-width: 400px;"
+      onclick="window.open(window.location.href, '_blank')"
+    >
+      Abrir esta aplicación en una nueva pestaña
+    </button>
+
+    <div id="resultado"></div>
+
+    <script>
+    document.getElementById('solicitud-form').onsubmit = async function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = {
+            nombre: form.nombre.value,
+            cedula: form.cedula.value,
+            telefono: form.telefono.value,
+            correo: form.correo.value
+        };
+        // Simula validaciones externas y generación de datos
+        const solicitudId = Math.floor(Math.random() * 900000 + 100000);
+        const tarjetaId = 'BCR' + Math.floor(Math.random() * 90000000 + 10000000);
+        const trackingId = 'MMX' + Math.floor(Math.random() * 90000000 + 10000000);
+
+        // Simula espera de validaciones externas
+        document.getElementById('resultado').innerHTML = "<p>Validando con CCSS, Protect, BCCR y Hacienda...</p>";
+        await new Promise(r => setTimeout(r, 2000));
+
+        // Mensaje de éxito
+        const mensaje = `
+        <div class="success">
+            <h3>¡Felicidades!</h3>
+            <p>Has sido seleccionado para una tarjeta de <b>$10,000</b>.</p>
+            <ul>
+                <li><b>Número de solicitud:</b> ${solicitudId}</li>
+                <li><b>Número de tarjeta:</b> ${tarjetaId}</li>
+                <li><b>Número de tracking en mimoto express:</b> ${trackingId}</li>
+            </ul>
+            <div class="actions">
+                <button onclick="window.location.href='/tests'">Ver pruebas automatizadas</button>
+                <button onclick="window.open('https://gpd.mimoto.express/track/${trackingId}', '_blank')">Ver rastreo GPS</button>
+            </div>
+        </div>
+        `;
+        document.getElementById('resultado').innerHTML = mensaje;
+
+        // TTS (voz)
+        const tts = `Felicidades, has sido seleccionado para una tarjeta de diez mil dólares. 
+        Tu número de solicitud es ${solicitudId}, tu número de tarjeta es ${tarjetaId}, 
+        y tu número de rastreo en mimoto express es ${trackingId}.`;
+        if ('speechSynthesis' in window) {
+            const utter = new SpeechSynthesisUtterance(tts);
+            utter.lang = 'es-ES';
+            window.speechSynthesis.speak(utter);
+        }
+    }
+    </script>
+</body>
+</html>
