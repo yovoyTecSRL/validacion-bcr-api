@@ -1,0 +1,37 @@
+name: Deploy to Azure Web App - BCR FastAPI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Iniciar sesión en Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Construir y subir imagen a Azure Container Registry (opcional)
+        uses: azure/docker-login@v1
+        with:
+          login-server: <TU-REGISTRO>.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Construir imagen Docker
+        run: |
+          docker build -t fastapi-bcr .
+
+      - name: Desplegar en Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: <TU_NOMBRE_APP_SERVICE>
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          images: fastapi-bcr
