@@ -22,7 +22,7 @@ jobs:
         uses: azure/docker-login@v1
         with:
           login-server: <TU-REGISTRO>.azurecr.io
-          username: ${{ secrets.ACR_USERNAME }}
+          username: ${{ secrets.ACR_USERNAME }} # Make sure this secret exists in your repository or organization secrets
           password: ${{ secrets.ACR_PASSWORD }}
 
       - name: Construir imagen Docker
