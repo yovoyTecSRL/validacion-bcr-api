@@ -10,28 +10,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout código
+      - name: 🛎️ Checkout del código
         uses: actions/checkout@v3
 
-      - name: Iniciar sesión en Azure
+      - name: 🔐 Iniciar sesión en Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Construir y subir imagen a Azure Container Registry (opcional)
+      - name: 🐳 Login en Azure Container Registry (opcional)
         uses: azure/docker-login@v1
         with:
-          login-server: <TU-REGISTRO>.azurecr.io
-          username: ${{ secrets.ACR_USERNAME }} # Make sure this secret exists in your repository or organization secrets
+          login-server: yovoytech.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Construir imagen Docker
+      - name: 🏗️ Construir imagen Docker
         run: |
-          docker build -t fastapi-bcr .
+          docker build -t yovoytech.azurecr.io/fastapi-bcr:latest .
 
-      - name: Desplegar en Azure App Service
+      - name: 📤 Push a Azure Container Registry
+        run: |
+          docker push yovoytech.azurecr.io/fastapi-bcr:latest
+
+      - name: 🚀 Desplegar en Azure App Service (Linux, contenedor)
         uses: azure/webapps-deploy@v2
         with:
-          app-name: <TU_NOMBRE_APP_SERVICE>
+          app-name: validaciones-bcr-api
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: fastapi-bcr
+          images: yovoytech.azurecr.io/fastapi-bcr:latest
