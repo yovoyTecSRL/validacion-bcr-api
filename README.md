@@ -1,84 +1,42 @@
-Validación BCR API
+# # 🏦 Validación BCR API
 
-Sistema automatizado de validación para solicitudes de tarjetas del Banco de Costa Rica (✨ desarrollado por YovoyTech SRL).
+Sistema automatizado de validación para solicitudes de tarjetas del Banco de Costa Rica (✨ desarrollado por **YovoyTech SRL**).
 
 Este proyecto valida en tiempo real a un cliente mediante APIs de instituciones costarricenses (CCSS, Hacienda, SUGEF, Protectora, BCR), y si es aprobado:
 
-Crea un lead en Odoo
+✅ Crea un lead en **Odoo**  
+✅ Genera orden de entrega de tarjeta con posición **GPS**  
+✅ Permite seleccionar ubicación con un **mapa interactivo**  
+✅ Integra con **Traccar** para el rastreo de la tarjeta  
 
-Genera orden de entrega de tarjeta con posición GPS
+---
 
-Permite al usuario seleccionar su ubicación con un mapa
+## 🔌 Instituciones conectadas vía API
 
-Integra con Traccar para rastreo y entrega
+- **CCSS** (Seguridad social)  
+- **Ministerio de Hacienda** (Situación fiscal)  
+- **SUGEF** (Riesgo financiero)  
+- **Protectora de Crédito**  
+- **Banco de Costa Rica** (Evaluación interna)
 
-🚀 Tecnologías utilizadas
+---
 
-FastAPI
+## 🚀 Tecnologías utilizadas
 
-HTML5 + JS (Frontend con mapa y validación de formularios)
+- **FastAPI** (framework backend)  
+- **HTML5 + JavaScript** (formulario con validaciones y mapa)  
+- **Python 3.11+**  
+- **Odoo 16 Community** (vía XML-RPC)  
+- **Traccar API** (ubicación GPS)  
+- **Docker** (opcional para empaquetado/despliegue)  
+- **GitHub Actions** (para CI/CD en Azure)
 
-Python 3.8+
+---
 
-Odoo 16 Community (vía XML-RPC)
+## ⚙️ Instalación local
 
-Traccar API (rastreo de ubicación por GPS)
-
-Docker (opcional para despliegue)
-
-⚙️ Instalación local
-
+```bash
 git clone https://github.com/YovoyTecSRL/validacion-bcr-api.git
 cd validacion-bcr-api
 pip install -r requirements.txt
-
-Archivos importantes:
-
-main.py → Lógica principal y rutas FastAPI
-
-templates/formulario_validacion.html → Formulario web con estilo y JS
-
-static/validacion.js → Validaciones de campos
-
-traccar_client.py → Cliente REST para conectarse a Traccar
-
-🔍 Endpoints principales
-
-GET /formulario
-
-Muestra el formulario de solicitud de tarjeta con validación visual.
-
-POST /procesar
-
-Procesa la solicitud, verifica APIs externas y responde si fue aprobada.
-
-GET /rastreo
-
-Consulta la última ubicación GPS de un dispositivo en Traccar.
-
-Ejemplo:
-
-/rastreo?usuario=enriquemata2@hotmail.com&clave=Services2024@&device_id=23477888&servidor=https://gps.mimoto.express
-
-📚 Pruebas automatizadas
-
-python -m unittest discover -s tests
-
-Incluye pruebas para:
-
-Cliente Traccar (tests/test_traccar_client.py)
-
-Validaciones de formularios (pendiente incluir más casos)
-
-🌍 Enlace a entorno en vivo (DevTunnel)
-
-https://3p4h3r7p2-8100.use2.devtunnels.ms
-
-Asegurate de que FastAPI esté corriendo:
-
 uvicorn main:app --host 0.0.0.0 --port 8100 --reload
-
-📄 Licencia
-
-Este proyecto es propiedad de YovoyTech SRL y forma parte del sistema BABEL automatizado. Todos los derechos reservados.
-
