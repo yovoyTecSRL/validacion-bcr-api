@@ -13,29 +13,19 @@ jobs:
       - name: 🛎️ Checkout del código
         uses: actions/checkout@v3
 
-      - name: 🔐 Iniciar sesión en Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: 🐳 Login en Azure Container Registry (opcional)
-        uses: azure/docker-login@v1
-        with:
-          login-server: yovoytech.azurecr.io
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
-
       - name: 🏗️ Construir imagen Docker
         run: |
           docker build -t yovoytech.azurecr.io/fastapi-bcr:latest .
 
       - name: 📤 Push a Azure Container Registry
         run: |
+          echo "${{ secrets.ACR_PASSWORD }}" | docker login yovoytech.azurecr.io -u ${{ secrets.ACR_USERNAME }} --password-stdin
           docker push yovoytech.azurecr.io/fastapi-bcr:latest
 
-      - name: 🚀 Desplegar en Azure App Service (Linux, contenedor)
+      - name: 🚀 Desplegar en Azure Web App (contenedor)
         uses: azure/webapps-deploy@v2
         with:
           app-name: validaciones-bcr-api
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           images: yovoytech.azurecr.io/fastapi-bcr:latest
+
