@@ -1,4 +1,4 @@
-name: Azure Deploy FastAPI (Docker)
+name: 🚀 Azure Deploy FastAPI (Docker)
 
 on:
   push:
@@ -8,32 +8,44 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: fastapi-bcr
+      ACR_LOGIN_SERVER: yovoytech.azurecr.io
 
     steps:
-      - name: Checkout code
+      - name: 🧾 Checkout del código
         uses: actions/checkout@v3
 
-      - name: Log in to Azure
+      - name: 🔐 Login a Azure con Service Principal
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Log in to Azure Container Registry
+      - name: 🐳 Login en Azure Container Registry (ACR)
         uses: docker/login-action@v3
         with:
-          registry: yovoytech.azurecr.io
+          registry: ${{ env.ACR_LOGIN_SERVER }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Build Docker image
-        run: docker build -t yovoytech.azurecr.io/fastapi-bcr:latest .
+      - name: 📦 Validar existencia de Dockerfile
+        run: |
+          if [ ! -f Dockerfile ]; then
+            echo "❌ Dockerfile no encontrado en el directorio raíz."
+            exit 1
+          fi
 
-      - name: Push Docker image
-        run: docker push yovoytech.azurecr.io/fastapi-bcr:latest
+      - name: 🏗️ Construir imagen Docker
+        run: |
+          docker build -t ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest .
 
-      - name: Deploy to Azure Web App (Docker)
+      - name: 📤 Enviar imagen a Azure Container Registry
+        run: |
+          docker push ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: 🚀 Desplegar en Azure Web App (Docker)
         uses: azure/webapps-deploy@v2
         with:
-          app-name: validaciones-bcr-api
+          app-name: validaciones-bcr-api           # 👈 Cambia si tu App Service se llama diferente
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: yovoytech.azurecr.io/fastapi-bcr:latest
+          images: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
