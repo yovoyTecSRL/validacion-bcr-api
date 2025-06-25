@@ -1,0 +1,24 @@
+# 🧠 Framework principal
+fastapi==0.110.1
+uvicorn[standard]==0.29.0
+
+# 🧱 Comunicación con Odoo por XML-RPC
+xmlrpc==1.2.1
+
+# 📬 Cliente HTTP por si usas requests
+httpx==0.27.0
+
+# 📜 Validaciones y tipos
+pydantic==2.7.1
+
+# 🔐 Seguridad (si aplicas autenticación más adelante)
+python-jose[cryptography]==3.3.0
+
+# 🧠 OpenAI (para GPT evaluador)
+openai==1.30.1
+
+# 🧪 Testeo con Playwright desde backend si decides usarlo así
+pytest==8.2.1
+pytest-asyncio==0.23.6
+pytest-playwright==0.4.3
+playwright==1.44.0
