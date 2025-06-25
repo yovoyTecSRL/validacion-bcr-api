@@ -16,6 +16,15 @@ jobs:
       - name: 🧾 Checkout del código
         uses: actions/checkout@v3
 
+      - name: 🧪 Instalar dependencias de Playwright
+        run: |
+          npm ci || npm install
+          npx playwright install --with-deps
+
+      - name: 🧪 Ejecutar pruebas Playwright
+        run: |
+          npx playwright test
+
       - name: 🔐 Login a Azure con Service Principal
         uses: azure/login@v1
         with:
@@ -35,15 +44,6 @@ jobs:
             exit 1
           fi
 
-      - name: 🧪 Instalar dependencias de Playwright
-        run: |
-          npm ci || npm install
-          npx playwright install --with-deps
-
-      - name: 🧪 Ejecutar pruebas Playwright
-        run: |
-          npx playwright test
-
       - name: 🏗️ Construir imagen Docker
         run: |
           docker build -t ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest .
@@ -58,4 +58,3 @@ jobs:
           app-name: validaciones-bcr-api
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           images: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
-
