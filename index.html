@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+https://sturdy-lamp-69rr6qjp5v59f465v.github.dev/<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -15,17 +15,17 @@
 <body>
     <h2>Solicitud de Tarjeta BCR</h2>
     <form id="solicitud-form" autocomplete="off">
-        <label>Nombre completo:</label>
-        <input type="text" name="nombre" required minlength="3" maxlength="80">
+        <label for="nombre">Nombre completo:</label>
+        <input id="nombre" type="text" name="nombre" required minlength="3" maxlength="80">
 
-        <label>Cédula:</label>
-        <input type="text" name="cedula" required pattern="\d{9,12}" maxlength="12">
+        <label for="cedula">Cédula:</label>
+        <input id="cedula" type="text" name="cedula" required pattern="^\d{9,12}$" maxlength="12">
 
-        <label>Teléfono:</label>
-        <input type="tel" name="telefono" required pattern="\d{8,15}" maxlength="15">
+        <label for="telefono">Teléfono:</label>
+        <input id="telefono" type="tel" name="telefono" required pattern="^\+?\d{8,15}$" maxlength="15">
 
-        <label>Correo electrónico:</label>
-        <input type="email" name="correo" required maxlength="80">
+        <label for="correo">Correo electrónico:</label>
+        <input id="correo" type="email" name="correo" required maxlength="80">
 
         <button type="submit">Enviar solicitud</button>
     </form>

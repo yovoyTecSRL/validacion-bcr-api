@@ -1,11 +1,8 @@
-Perfecto, aquí tienes tu `README.md` completamente formateado, profesional y listo para GitHub con estilo Markdown correcto y espaciado consistente:
-
----
-
-````markdown
-# 🏦 Validación BCR API
+# 🏦 Validación BCR API + Sentinel Dashboard
 
 Sistema automatizado de validación para solicitudes de tarjetas del Banco de Costa Rica (✨ desarrollado por **YovoyTech SRL**).
+
+## 🏦 Sistema Principal BCR
 
 Este proyecto valida en tiempo real a un cliente mediante APIs de instituciones costarricenses (CCSS, Hacienda, SUGEF, Protectora, BCR), y si es aprobado:
 
@@ -26,7 +23,37 @@ Este proyecto valida en tiempo real a un cliente mediante APIs de instituciones 
 
 ---
 
+## ️ Nuevo Módulo: Sentinel Dashboard
+
+**Sentinel** es un dashboard avanzado de monitoreo de red que se integra con el sistema BCR para proporcionar:
+
+- **🔍 Monitoreo en Tiempo Real**: Supervisión continua de la infraestructura de red
+- **🌐 Control de Conectividad**: Verificación de APIs externas (CCSS, Hacienda, BCR)
+- **🔒 Seguridad Avanzada**: Detección de amenazas y análisis de firewall/proxy
+- **📊 Dashboards Interactivos**: Visualización de métricas y KPIs en tiempo real
+- **⚠️ Alertas Inteligentes**: Notificaciones automáticas para eventos críticos
+- **📈 Reportes Automáticos**: Informes de disponibilidad y rendimiento
+
+### 🚀 Acceso Rápido a Sentinel
+
+```bash
+# Navegar al módulo Sentinel
+cd sentinel/
+
+# Ejecutar demostración rápida
+./demo.sh
+
+# O instalación completa
+./install.sh
+```
+
+**Dashboard disponible en**: http://localhost:8080
+
+---
+
 ## 🚀 Tecnologías utilizadas
+
+**Sistema BCR:**
 
 - **FastAPI** (framework backend)  
 - **HTML5 + JavaScript** (formulario con validaciones y mapa)  
@@ -38,7 +65,28 @@ Este proyecto valida en tiempo real a un cliente mediante APIs de instituciones 
 
 ---
 
+<<<<<<< HEAD
 ## ⚙️ Instalación local
+=======
+Odoo 16 Community (vía XML-RPC)
+
+Traccar API (rastreo de ubicación por GPS)
+
+Docker (opcional para despliegue)
+
+**Sentinel:**
+Python 3.8+
+
+Dash (para dashboards interactivos)
+
+Requests (para llamadas a APIs)
+
+SQLAlchemy (para gestión de base de datos)
+
+Prometheus y Grafana (opcional, para monitoreo y alertas avanzadas)
+
+⚙️ Instalación local
+>>>>>>> f140457 (Actualiza el archivo deploy.yml para usar secretos de Azure y modifica main.yml para establecer el directorio de trabajo. Mejora el formulario en index.html con etiquetas for para accesibilidad.)
 
 ```bash
 git clone https://github.com/YovoyTecSRL/validacion-bcr-api.git

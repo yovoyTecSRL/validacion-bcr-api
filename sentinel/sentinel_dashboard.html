@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinel - Dashboard de Monitoreo de Red</title>
+    <link rel="stylesheet" href="static/css/sentinel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-shield-alt"></i>
+                    <h1>Sentinel</h1>
+                    <span class="subtitle">Dashboard de Monitoreo de Red</span>
+                </div>
+                <div class="header-actions">
+                    <div class="status-indicator">
+                        <span class="status-dot online"></span>
+                        <span>Sistema Online</span>
+                    </div>
+                    <div class="user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="dashboard-nav">
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="#overview" data-section="overview">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Resumen General</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#network" data-section="network">
+                        <i class="fas fa-network-wired"></i>
+                        <span>Monitoreo de Red</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#security" data-section="security">
+                        <i class="fas fa-lock"></i>
+                        <span>Seguridad</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#devices" data-section="devices">
+                        <i class="fas fa-server"></i>
+                        <span>Dispositivos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#alerts" data-section="alerts">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Alertas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#reports" data-section="reports">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reportes</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Overview Section -->
+            <section id="overview" class="dashboard-section active">
+                <div class="section-header">
+                    <h2>Resumen General del Sistema</h2>
+                    <div class="last-update">
+                        Última actualización: <span id="last-update">Cargando...</span>
+                    </div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Estado de Internet</h3>
+                            <div class="metric-value">
+                                <span class="value" id="internet-status">Conectado</span>
+                                <span class="status-indicator online"></span>
+                            </div>
+                            <div class="metric-details">
+                                Latencia: <span id="internet-latency">12ms</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-router"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Router Principal</h3>
+                            <div class="metric-value">
+                                <span class="value" id="router-status">Operativo</span>
+                                <span class="status-indicator online"></span>
+                            </div>
+                            <div class="metric-details">
+                                CPU: <span id="router-cpu">25%</span> | RAM: <span id="router-ram">40%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-shield-virus"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Proxy/Firewall</h3>
+                            <div class="metric-value">
+                                <span class="value" id="proxy-status">Protegido</span>
+                                <span class="status-indicator online"></span>
+                            </div>
+                            <div class="metric-details">
+                                Amenazas bloqueadas: <span id="threats-blocked">247</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Red LAN Interna</h3>
+                            <div class="metric-value">
+                                <span class="value" id="lan-devices">24 dispositivos</span>
+                                <span class="status-indicator online"></span>
+                            </div>
+                            <div class="metric-details">
+                                Tráfico: <span id="lan-traffic">1.2 Mbps</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>Tráfico de Red (Últimas 24h)</h3>
+                        <canvas id="networkTrafficChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Uso de Ancho de Banda</h3>
+                        <canvas id="bandwidthChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Network Monitoring Section -->
+            <section id="network" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Monitoreo de Red</h2>
+                    <button class="btn-refresh" onclick="refreshNetworkData()">
+                        <i class="fas fa-sync-alt"></i> Actualizar
+                    </button>
+                </div>
+
+                <div class="network-topology">
+                    <h3>Topología de Red</h3>
+                    <div class="topology-diagram">
+                        <div class="network-node internet">
+                            <i class="fas fa-globe"></i>
+                            <span>Internet</span>
+                            <div class="status online"></div>
+                        </div>
+                        <div class="connection-line"></div>
+                        <div class="network-node router">
+                            <i class="fas fa-router"></i>
+                            <span>Router Principal</span>
+                            <div class="status online"></div>
+                        </div>
+                        <div class="connection-branches">
+                            <div class="branch">
+                                <div class="network-node switch">
+                                    <i class="fas fa-server"></i>
+                                    <span>Switch</span>
+                                    <div class="status online"></div>
+                                </div>
+                            </div>
+                            <div class="branch">
+                                <div class="network-node firewall">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>Firewall</span>
+                                    <div class="status online"></div>
+                                </div>
+                            </div>
+                            <div class="branch">
+                                <div class="network-node wifi">
+                                    <i class="fas fa-wifi"></i>
+                                    <span>WiFi</span>
+                                    <div class="status online"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="network-stats">
+                    <div class="stat-card">
+                        <h4>Ping a Servidores Críticos</h4>
+                        <div class="ping-results" id="ping-results">
+                            <!-- Resultados de ping se cargarán aquí -->
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Puertos Monitoreados</h4>
+                        <div class="port-monitoring" id="port-monitoring">
+                            <!-- Estado de puertos se cargará aquí -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security Section -->
+            <section id="security" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Centro de Seguridad</h2>
+                    <div class="security-level">
+                        <span class="level-badge high">Nivel Alto</span>
+                    </div>
+                </div>
+
+                <div class="security-metrics">
+                    <div class="security-card">
+                        <h3>Amenazas Detectadas</h3>
+                        <div class="threat-counter">
+                            <span class="count">0</span>
+                            <span class="period">Hoy</span>
+                        </div>
+                        <div class="threat-types">
+                            <div class="threat-type">
+                                <span>Malware:</span>
+                                <span>0</span>
+                            </div>
+                            <div class="threat-type">
+                                <span>Phishing:</span>
+                                <span>0</span>
+                            </div>
+                            <div class="threat-type">
+                                <span>Intrusiones:</span>
+                                <span>0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="security-card">
+                        <h3>Firewall</h3>
+                        <div class="firewall-stats">
+                            <div class="stat">
+                                <span>Conexiones Bloqueadas:</span>
+                                <span id="blocked-connections">1,247</span>
+                            </div>
+                            <div class="stat">
+                                <span>Reglas Activas:</span>
+                                <span id="active-rules">156</span>
+                            </div>
+                            <div class="stat">
+                                <span>Estado:</span>
+                                <span class="status-text online">Activo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="security-card">
+                        <h3>Proxy Web</h3>
+                        <div class="proxy-stats">
+                            <div class="stat">
+                                <span>Sitios Bloqueados:</span>
+                                <span id="blocked-sites">47</span>
+                            </div>
+                            <div class="stat">
+                                <span>Filtros Activos:</span>
+                                <span id="active-filters">12</span>
+                            </div>
+                            <div class="stat">
+                                <span>Cache Hit Rate:</span>
+                                <span id="cache-hit">85%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-events">
+                    <h3>Eventos de Seguridad Recientes</h3>
+                    <div class="events-list" id="security-events">
+                        <!-- Los eventos se cargarán dinámicamente -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Devices Section -->
+            <section id="devices" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Dispositivos de Red</h2>
+                    <button class="btn-scan" onclick="scanDevices()">
+                        <i class="fas fa-search"></i> Escanear Red
+                    </button>
+                </div>
+
+                <div class="devices-grid" id="devices-grid">
+                    <!-- Los dispositivos se cargarán dinámicamente -->
+                </div>
+            </section>
+
+            <!-- Alerts Section -->
+            <section id="alerts" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Centro de Alertas</h2>
+                    <div class="alert-filters">
+                        <button class="filter-btn active" data-filter="all">Todas</button>
+                        <button class="filter-btn" data-filter="critical">Críticas</button>
+                        <button class="filter-btn" data-filter="warning">Advertencias</button>
+                        <button class="filter-btn" data-filter="info">Información</button>
+                    </div>
+                </div>
+
+                <div class="alerts-container" id="alerts-container">
+                    <!-- Las alertas se cargarán dinámicamente -->
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Reportes y Análisis</h2>
+                    <button class="btn-export" onclick="exportReport()">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                </div>
+
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h3>Reporte de Disponibilidad</h3>
+                        <div class="uptime-stats">
+                            <div class="uptime-value">99.8%</div>
+                            <div class="uptime-period">Últimos 30 días</div>
+                        </div>
+                        <canvas id="uptimeChart"></canvas>
+                    </div>
+
+                    <div class="report-card">
+                        <h3>Análisis de Tráfico</h3>
+                        <div class="traffic-summary">
+                            <div class="traffic-item">
+                                <span>Total procesado:</span>
+                                <span>1.2 TB</span>
+                            </div>
+                            <div class="traffic-item">
+                                <span>Pico máximo:</span>
+                                <span>95 Mbps</span>
+                            </div>
+                        </div>
+                        <canvas id="trafficAnalysisChart"></canvas>
+                    </div>
+
+                    <div class="report-card">
+                        <h3>Eventos de Seguridad</h3>
+                        <div class="security-summary">
+                            <div class="summary-item high">
+                                <span>Críticos:</span>
+                                <span>0</span>
+                            </div>
+                            <div class="summary-item medium">
+                                <span>Moderados:</span>
+                                <span>3</span>
+                            </div>
+                            <div class="summary-item low">
+                                <span>Bajos:</span>
+                                <span>12</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="static/js/sentinel.js"></script>
+    <script src="static/js/charts.js"></script>
+    <script src="static/js/network-monitor.js"></script>
+</body>
+</html>

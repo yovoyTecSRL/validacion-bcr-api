@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 name: CI
 
@@ -21,3 +22,5 @@ jobs:
 	  run: npm install
 	- name: Run tests
 	  run: npm test
+=======
+>>>>>>> f140457 (Actualiza el archivo deploy.yml para usar secretos de Azure y modifica main.yml para establecer el directorio de trabajo. Mejora el formulario en index.html con etiquetas for para accesibilidad.)

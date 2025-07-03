@@ -1,0 +1,578 @@
+{
+  "application": {
+    "name": "Sentinel Dashboard",
+    "version": "1.0.0",
+    "description": "Dashboard de Monitoreo de Red para BCR",
+    "port": 8080,
+    "host": "0.0.0.0",
+    "debug": false
+  },
+  "network": {
+    "scan_interval": 60,
+    "ping_interval": 10,
+    "device_timeout": 300,
+    "max_concurrent_scans": 50,
+    "ping_targets": [
+      {
+        "host": "google.com",
+        "name": "Google DNS",
+        "critical": true
+      },
+      {
+        "host": "cloudflare.com", 
+        "name": "Cloudflare DNS",
+        "critical": true
+      },
+      {
+        "host": "192.168.1.1",
+        "name": "Router Principal",
+        "critical": true
+      },
+      {
+        "host": "8.8.8.8",
+        "name": "DNS Público Google",
+        "critical": false
+      }
+    ],
+    "subnet_ranges": [
+      {
+        "range": "192.168.1.0/24",
+        "name": "Red LAN Principal",
+        "scan_enabled": true
+      },
+      {
+        "range": "10.0.0.0/24", 
+        "name": "Red DMZ",
+        "scan_enabled": true
+      },
+      {
+        "range": "172.16.0.0/24",
+        "name": "Red Servidores",
+        "scan_enabled": false
+      }
+    ],
+    "monitored_ports": [
+      {
+        "port": 22,
+        "name": "SSH",
+        "protocol": "tcp",
+        "expected_status": "open",
+        "critical": true,
+        "description": "Secure Shell - Acceso remoto seguro"
+      },
+      {
+        "port": 80,
+        "name": "HTTP",
+        "protocol": "tcp", 
+        "expected_status": "open",
+        "critical": true,
+        "description": "Protocolo web estándar"
+      },
+      {
+        "port": 443,
+        "name": "HTTPS",
+        "protocol": "tcp",
+        "expected_status": "open", 
+        "critical": true,
+        "description": "Protocolo web seguro (SSL/TLS)"
+      },
+      {
+        "port": 8080,
+        "name": "Sentinel Dashboard",
+        "protocol": "tcp",
+        "expected_status": "open",
+        "critical": true,
+        "description": "Dashboard de monitoreo Sentinel"
+      },
+      {
+        "port": 8100,
+        "name": "BCR Validation API",
+        "protocol": "tcp",
+        "expected_status": "open",
+        "critical": true,
+        "description": "API de validación de tarjetas BCR"
+      },
+      {
+        "port": 21,
+        "name": "FTP",
+        "protocol": "tcp",
+        "expected_status": "closed",
+        "critical": false,
+        "description": "File Transfer Protocol - Debe estar cerrado por seguridad"
+      },
+      {
+        "port": 23,
+        "name": "Telnet",
+        "protocol": "tcp",
+        "expected_status": "closed",
+        "critical": true,
+        "description": "Telnet - Debe estar cerrado por seguridad"
+      },
+      {
+        "port": 3389,
+        "name": "RDP",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "Remote Desktop Protocol"
+      },
+      {
+        "port": 53,
+        "name": "DNS",
+        "protocol": "udp",
+        "expected_status": "open",
+        "critical": true,
+        "description": "Domain Name System"
+      },
+      {
+        "port": 3306,
+        "name": "MySQL",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "MySQL Database Server"
+      },
+      {
+        "port": 5432,
+        "name": "PostgreSQL",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "PostgreSQL Database Server"
+      },
+      {
+        "port": 6379,
+        "name": "Redis",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "Redis Cache Server"
+      },
+      {
+        "port": 25,
+        "name": "SMTP",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "Simple Mail Transfer Protocol"
+      },
+      {
+        "port": 110,
+        "name": "POP3",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "Post Office Protocol v3"
+      },
+      {
+        "port": 143,
+        "name": "IMAP",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "Internet Message Access Protocol"
+      },
+      {
+        "port": 993,
+        "name": "IMAPS",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "IMAP over SSL/TLS"
+      },
+      {
+        "port": 995,
+        "name": "POP3S",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "POP3 over SSL/TLS"
+      },
+      {
+        "port": 465,
+        "name": "SMTPS",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "SMTP over SSL/TLS"
+      },
+      {
+        "port": 587,
+        "name": "SMTP Submission",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "SMTP Mail Submission"
+      },
+      {
+        "port": 161,
+        "name": "SNMP",
+        "protocol": "udp",
+        "expected_status": "filtered",
+        "critical": true,
+        "description": "Simple Network Management Protocol - Debe estar filtrado"
+      },
+      {
+        "port": 162,
+        "name": "SNMP Trap",
+        "protocol": "udp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "SNMP Trap Messages"
+      },
+      {
+        "port": 636,
+        "name": "LDAPS",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "LDAP over SSL/TLS"
+      },
+      {
+        "port": 389,
+        "name": "LDAP",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "Lightweight Directory Access Protocol"
+      },
+      {
+        "port": 1433,
+        "name": "SQL Server",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": true,
+        "description": "Microsoft SQL Server"
+      },
+      {
+        "port": 1521,
+        "name": "Oracle DB",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": true,
+        "description": "Oracle Database"
+      },
+      {
+        "port": 27017,
+        "name": "MongoDB",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "MongoDB Database"
+      },
+      {
+        "port": 5984,
+        "name": "CouchDB",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "Apache CouchDB"
+      },
+      {
+        "port": 8443,
+        "name": "HTTPS Alt",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "HTTPS Puerto Alternativo"
+      },
+      {
+        "port": 9443,
+        "name": "Admin HTTPS",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "HTTPS Administración"
+      },
+      {
+        "port": 9200,
+        "name": "Elasticsearch",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "Elasticsearch REST API"
+      },
+      {
+        "port": 5601,
+        "name": "Kibana",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "Kibana Dashboard"
+      },
+      {
+        "port": 9090,
+        "name": "Prometheus",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "Prometheus Monitoring"
+      },
+      {
+        "port": 3000,
+        "name": "Grafana",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "Grafana Dashboard"
+      },
+      {
+        "port": 135,
+        "name": "RPC Endpoint",
+        "protocol": "tcp",
+        "expected_status": "closed",
+        "critical": true,
+        "description": "RPC Endpoint Mapper - Debe estar cerrado"
+      },
+      {
+        "port": 139,
+        "name": "NetBIOS",
+        "protocol": "tcp",
+        "expected_status": "closed",
+        "critical": true,
+        "description": "NetBIOS Session Service - Debe estar cerrado"
+      },
+      {
+        "port": 445,
+        "name": "SMB",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": true,
+        "description": "Server Message Block - Debe estar filtrado"
+      },
+      {
+        "port": 8086,
+        "name": "InfluxDB",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "InfluxDB Time Series Database"
+      },
+      {
+        "port": 8086,
+        "name": "InfluxDB",
+        "protocol": "tcp",
+        "expected_status": "filtered",
+        "critical": false,
+        "description": "InfluxDB Time Series Database"
+      }
+    ]
+  },
+  "security": {
+    "scan_interval": 300,
+    "threat_threshold": "medium",
+    "max_alerts_per_hour": 50,
+    "alert_retention_days": 30,
+    "enable_intrusion_detection": true,
+    "enable_vulnerability_scanning": true,
+    "firewall": {
+      "monitor_enabled": true,
+      "log_path": "/var/log/firewall.log",
+      "rule_check_interval": 60
+    },
+    "proxy": {
+      "monitor_enabled": true,
+      "blocked_categories": [
+        "malware",
+        "phishing", 
+        "adult",
+        "gambling",
+        "social_media"
+      ],
+      "cache_monitoring": true
+    },
+    "threat_intelligence": {
+      "enabled": true,
+      "sources": [
+        "virustotal",
+        "alienVault",
+        "local_blacklist"
+      ],
+      "update_interval": 3600
+    }
+  },
+  "alerts": {
+    "enabled": true,
+    "default_severity": "medium",
+    "escalation_rules": {
+      "critical": {
+        "immediate": true,
+        "channels": ["email", "sms", "webhook"]
+      },
+      "high": {
+        "delay_minutes": 5,
+        "channels": ["email", "webhook"]
+      },
+      "medium": {
+        "delay_minutes": 15,
+        "channels": ["email"]
+      },
+      "low": {
+        "delay_minutes": 60,
+        "channels": ["dashboard"]
+      }
+    },
+    "email": {
+      "enabled": true,
+      "smtp_server": "smtp.bcr.fi.cr",
+      "smtp_port": 587,
+      "use_tls": true,
+      "username": "sentinel@bcr.fi.cr",
+      "password": "${SMTP_PASSWORD}",
+      "from_address": "sentinel@bcr.fi.cr",
+      "to_addresses": [
+        "admin-redes@bcr.fi.cr",
+        "seguridad-ti@bcr.fi.cr"
+      ],
+      "subject_prefix": "[SENTINEL]"
+    },
+    "webhook": {
+      "enabled": true,
+      "url": "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK",
+      "timeout": 10,
+      "retries": 3,
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    },
+    "sms": {
+      "enabled": false,
+      "provider": "twilio",
+      "account_sid": "${TWILIO_SID}",
+      "auth_token": "${TWILIO_TOKEN}",
+      "from_number": "+15551234567",
+      "to_numbers": [
+        "+50688887777",
+        "+50699998888"
+      ]
+    }
+  },
+  "database": {
+    "type": "sqlite",
+    "path": "data/sentinel.db",
+    "backup_enabled": true,
+    "backup_interval": 3600,
+    "retention_days": 90,
+    "influxdb": {
+      "enabled": false,
+      "host": "localhost",
+      "port": 8086,
+      "database": "sentinel",
+      "username": "${INFLUX_USER}",
+      "password": "${INFLUX_PASSWORD}",
+      "ssl": false
+    }
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "file": "logs/sentinel.log",
+    "max_size_mb": 100,
+    "backup_count": 5,
+    "console_output": true,
+    "modules": {
+      "network": "INFO",
+      "security": "INFO", 
+      "alerts": "INFO",
+      "database": "WARNING",
+      "api": "INFO"
+    }
+  },
+  "performance": {
+    "cache_enabled": true,
+    "cache_ttl": 300,
+    "max_workers": 10,
+    "request_timeout": 30,
+    "enable_compression": true,
+    "rate_limiting": {
+      "enabled": true,
+      "requests_per_minute": 100,
+      "burst_size": 20
+    }
+  },
+  "dashboard": {
+    "refresh_interval": 30,
+    "chart_data_points": 50,
+    "enable_realtime": true,
+    "default_timerange": "24h",
+    "themes": {
+      "default": "dark",
+      "available": ["dark", "light"]
+    },
+    "features": {
+      "network_topology": true,
+      "device_discovery": true,
+      "security_monitoring": true,
+      "reporting": true,
+      "export_data": true
+    }
+  },
+  "authentication": {
+    "enabled": true,
+    "method": "local",
+    "session_timeout": 3600,
+    "max_failed_attempts": 5,
+    "lockout_duration": 300,
+    "password_requirements": {
+      "min_length": 8,
+      "require_uppercase": true,
+      "require_lowercase": true,
+      "require_numbers": true,
+      "require_special": true
+    },
+    "ldap": {
+      "enabled": false,
+      "server": "ldap://192.168.1.10",
+      "bind_dn": "cn=admin,dc=bcr,dc=fi,dc=cr",
+      "bind_password": "${LDAP_PASSWORD}",
+      "search_base": "ou=users,dc=bcr,dc=fi,dc=cr"
+    }
+  },
+  "integration": {
+    "snmp": {
+      "enabled": true,
+      "community": "public",
+      "version": "2c",
+      "timeout": 10,
+      "retries": 3
+    },
+    "syslog": {
+      "enabled": true,
+      "listen_port": 514,
+      "listen_address": "0.0.0.0"
+    },
+    "api": {
+      "enabled": true,
+      "key": "${API_KEY}",
+      "rate_limit": 1000,
+      "cors_enabled": true,
+      "allowed_origins": [
+        "http://localhost:3000",
+        "https://dashboard.bcr.fi.cr"
+      ]
+    }
+  },
+  "maintenance": {
+    "auto_cleanup": {
+      "enabled": true,
+      "interval": 86400,
+      "old_data_days": 90,
+      "old_logs_days": 30
+    },
+    "health_checks": {
+      "enabled": true,
+      "interval": 300,
+      "endpoints": [
+        "/health",
+        "/api/status"
+      ]
+    },
+    "backup": {
+      "enabled": true,
+      "interval": 3600,
+      "location": "backups/",
+      "retention": 7,
+      "compress": true
+    }
+  }
+}
